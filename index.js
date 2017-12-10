@@ -28,6 +28,15 @@ router.get("/info", userFromToken, cleanUser, (req, res) => {
     }
 });
 
+router.get("/refresh", refreshToken, (req, res) => {
+    if (req.errors) {
+        console.log(req.errors)
+        res.status(500).send(req.errors)
+    } else {
+        res.send(req.token)
+    }
+});
+
 let _default = "email";
 
 function register(req, res, next) {
@@ -61,6 +70,18 @@ function userFromToken(req, res, next) {
             req.errors = err
             next();
         });
+    } else {
+        req.user = {};
+        next();
+    }
+}
+
+function refreshToken(req, res, next) {
+    let token = req.headers.authorization;
+    if (token) {
+        token = token.split(" ");
+        req.token = auth.refreshToken(token[1]);
+        next();
     } else {
         req.user = {};
         next();
