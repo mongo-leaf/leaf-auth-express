@@ -75,4 +75,7 @@ function cleanUser(req, res, next) {
 }
 
 
-module.exports = router;
+module.exports.router = router;
+module.exports.verifyToken = require("leaf-auth").verifyToken;
+module.exports.setSecret = require("leaf-auth").setSecret;
+module.exports.replaceUser = require("leaf-auth").replaceUser;
