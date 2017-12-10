@@ -2,7 +2,7 @@ const assert = require("assert")
 const app = require("express")();
 app.use(require('body-parser').json())
 app.use(require('body-parser').urlencoded({ extended: true }))
-const authRouter = require("../index.js");
+const authRouter = require("../index.js").router;
 app.use("/", authRouter);
 let port = 3000 || 4201 || 8052;
 app.listen(port)
@@ -15,13 +15,15 @@ describe('Unit Testing Start!', function () {
         await require('mongo-leaf').connect("mongodb://127.0.0.1:27017/_leaf-auth-test");
         await require('leaf-auth').User.remove({});
         request.post(url + "/register", { json: testUser }, (err, res, body) => {
-            assert.equal(body.email, "heiyukidev@gmail.com");
+            assert.equal(body.data.email, "heiyukidev@gmail.com");
         })
     });
     it('Login Test', async function () {
         await require('mongo-leaf').connect("mongodb://127.0.0.1:27017/_leaf-auth-test");
         request.post(url + "/login", { json: testUser }, (err, res, body) => {
-            assert.equal(body.user.email, "heiyukidev@gmail.com");
+            token = body.data.token;
+            console.log(token)
+            assert.equal(body.data.user.email, "heiyukidev@gmail.com");
         });
     });
     it('Info Test', async function () {
@@ -32,8 +34,8 @@ describe('Unit Testing Start!', function () {
             }
         }, (err, res, body) => {
             if (!err) {
-                let user = JSON.parse(body)
-                assert.equal(user.email, "heiyukidev@gmail.com");
+                let block = JSON.parse(body)
+                assert.equal(block.data.email, "heiyukidev@gmail.com");
             }
         });
     });
@@ -45,8 +47,8 @@ describe('Unit Testing Start!', function () {
             }
         }, (err, res, body) => {
             if (!err) {
-                let user = JSON.parse(body)
-                assert.equal(user.email, "heiyukidev@gmail.com");
+                let block = JSON.parse(body)
+                assert.equal(block.data.email, "heiyukidev@gmail.com");
                 return;
             }
         });

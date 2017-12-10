@@ -1,6 +1,6 @@
 {
   "name": "leaf-auth-express",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,7 @@
   "author": "Khaled Romdhane <heiyukidev@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "dark-snow-response": "^1.0.0",
     "express": "^4.16.2",
     "leaf-auth": "^0.2.2"
   },
