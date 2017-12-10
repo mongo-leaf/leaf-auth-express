@@ -37,7 +37,7 @@ router.get("/refresh", refreshToken, (req, res) => {
         if (req.token === "Invalid token") {
             response.unauthorized(res)
         } else {
-            response.accepted(res)
+            response.accepted(res,req.token)
         }
     }
 });
