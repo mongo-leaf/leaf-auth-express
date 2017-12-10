@@ -7,7 +7,7 @@ router.post("/login", login, cleanUser, (req, res) => {
         console.log(req.errors)
         response.error(res)
     } else {
-        res.send({ user: req.user, token: req.token })
+        response.json(res, { user: req.user, token: req.token })
     }
 });
 
@@ -16,7 +16,7 @@ router.post("/register", register, cleanUser, (req, res) => {
         console.log(req.errors)
         response.error(res)
     } else {
-        res.send({ user: req.user, token: req.token })
+        response.created(res, { user: req.user, token: req.token })
     }
 });
 
@@ -25,7 +25,7 @@ router.get("/info", userFromToken, cleanUser, (req, res) => {
         console.log(req.errors)
         response.error(res)
     } else {
-        res.send(req.user)
+        response.json(res, req.user)
     }
 });
 
