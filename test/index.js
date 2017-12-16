@@ -6,7 +6,7 @@ const authRouter = require("../index.js").publicRouter;
 const secureAuthRouter = require("../index.js").secureRouter;
 app.use("/", authRouter);
 app.use("/", secureAuthRouter);
-let port = 3000 || 4201 || 8052;
+let port = 8052;
 app.listen(port)
 let url = "http://localhost:" + port;
 const request = require("request");
