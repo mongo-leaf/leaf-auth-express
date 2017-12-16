@@ -10,7 +10,7 @@ module.exports = router;
 router.post("/login", login, cleanUser, (req, res) => {
     if (req.errors) {
         console.log(req.errors)
-        response.error(res)
+        response.badRequest(res)
     } else {
         response.json(res, { user: req.user, token: req.token })
     }
@@ -19,7 +19,7 @@ router.post("/login", login, cleanUser, (req, res) => {
 router.post("/register", register, cleanUser, (req, res) => {
     if (req.errors) {
         console.log(req.errors)
-        response.error(res)
+        response.badRequest(res)
     } else {
         response.created(res, { user: req.user, token: req.token })
     }

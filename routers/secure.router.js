@@ -24,7 +24,7 @@ router.put("/users/:id/password", userFromToken, updatePassword, cleanUser, (req
 router.get("/info", userFromToken, cleanUser, (req, res) => {
     if (req.errors) {
         console.log(req.errors)
-        response.error(res)
+        response.unauthorized(res)
     } else {
         response.json(res, req.user)
     }
@@ -33,7 +33,7 @@ router.get("/info", userFromToken, cleanUser, (req, res) => {
 router.get("/refresh", refreshToken, (req, res) => {
     if (req.errors) {
         console.log(req.errors)
-        response.error(res)
+        response.unauthorized(res)
     } else {
         if (req.token === "Invalid token") {
             response.unauthorized(res)
