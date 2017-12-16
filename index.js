@@ -20,6 +20,22 @@ router.post("/register", register, cleanUser, (req, res) => {
     }
 });
 
+router.put("/users/:id", userFromToken, updateUser, cleanUser, (req, res) => {
+    if (req.errors) {
+        console.log(req.errors)
+        response.error(res)
+    } else {
+        response.created(res, req.user);
+    }
+});
+router.put("/users/:id/password", userFromToken, updatePassword, cleanUser, (req, res) => {
+    if (req.errors) {
+        console.log(req.errors)
+        response.error(res)
+    } else {
+        response.created(res, req.user);
+    }
+});
 router.get("/info", userFromToken, cleanUser, (req, res) => {
     if (req.errors) {
         console.log(req.errors)
@@ -37,7 +53,7 @@ router.get("/refresh", refreshToken, (req, res) => {
         if (req.token === "Invalid token") {
             response.unauthorized(res)
         } else {
-            response.accepted(res,req.token)
+            response.accepted(res, req.token)
         }
     }
 });
@@ -99,7 +115,25 @@ function cleanUser(req, res, next) {
     }
     next();
 }
+function updateUser(req, res, next) {
+    auth.updateUser(req.params.id, req.body).then(user => {
+        req.user = user;
+        next();
+    }).catch(err => {
+        req.errors = err;
+        next();
+    });;
+}
 
+function updatePassword(req, res, next) {
+    auth.updatePassword(req.params.id, req.body.password).then(user => {
+        req.user = user;
+        next();
+    }).catch(err => {
+        req.errors = err;
+        next();
+    });;
+}
 
 module.exports.router = router;
 module.exports.verifyToken = require("leaf-auth").verifyToken;
